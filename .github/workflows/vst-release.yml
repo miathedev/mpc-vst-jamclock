@@ -1,0 +1,51 @@
+# Build a DRAFT release (tag jamclock-vst-v<version>) with the shared workflow of
+# open-mpc/mpc-vst-plugins: Actions -> "VST release (draft)" -> Run workflow.
+# Then install that exact draft zip on a device, smoke-test it (every page and Q-Link,
+# save + reload a project, uninstall) and publish the draft
+# (open-mpc/mpc-vst-plugins docs/RELEASING.md). dry_run builds the zip and the skin
+# previews as run artifacts only, no release.
+#
+# PIN RULE: uses:@<sha> and tools_ref must name the SAME commit of open-mpc/mpc-vst-plugins.
+# Before every release, move both to the current main of open-mpc/mpc-vst-plugins
+# (https://api.github.com/repos/open-mpc/mpc-vst-plugins/commits/main) and re-check the
+# built zip: python3 tools/catalog_check.py <zip> --catalog from a fresh checkout of that
+# commit must not warn "install.sh differs from this repo's current template".
+#
+# Version input: use 2.0.0 for the first release (matches vst.json "version": 200, so
+# version.xml and param_compat stay consistent). Bump X when parameter indices change
+# (breaks saved projects), Y for new params/pages, Z for fixes. uid "JmCk" and the .so
+# name jamclock.so never change.
+#
+# Gen2: vst.json "targets" lists armv7 + aarch64, so the build leaves vst/build/aarch64/
+# jamclock.so and this workflow packages a second JamClock-<version>-mpc-aarch64.zip (no CPU
+# verdict - it shows as unverified for Gen2 in the catalog until tested on a Gen2 device).
+name: VST release (draft)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version, e.g. 2.0.0
+        required: true
+      dry_run:
+        description: Build only (zip + skin previews as run artifacts), no draft release
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    uses: open-mpc/mpc-vst-plugins/.github/workflows/vst-release.yml@93804291aac2623a62cb2baacf8125c7270fe4e7
+    permissions:
+      contents: write
+    with:
+      tag: jamclock-vst-v${{ inputs.version }}
+      version: ${{ inputs.version }}
+      tools_ref: 93804291aac2623a62cb2baacf8125c7270fe4e7
+      vst_dir: vst
+      build: ./build.sh
+      host_test: '"$MPC_VST/tools/test_port.sh" vst/vst.json'
+      plugin_id: jamclock
+      license: GPL-3.0-or-later
+      requires: "MPC OS 3.x Gen1 (armv7: X/Force/Live/One/Key, glibc 2.35+). MPC OS 3.10.1+ lists it natively from the VST2 Plugins folder. Older 3.x via root SSH install. 44.1 kHz"
+      about: "Listen-only insert that beat-tracks live audio (BTT) and sends MIDI Clock (24 ppq) + Start/Continue/Stop on its own ALSA port 'JamClock MIDI Out' - aconnect it to the MPC's MIDI in and the MPC follows the band in external sync."
+      dry_run: ${{ inputs.dry_run }}

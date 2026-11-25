@@ -1,0 +1,40 @@
+{
+  "name": "JamClock",
+  "vendor": "mime",
+  "uid": "JmCk",
+  "version": 200,
+  "targets": [
+    "armv7",
+    "aarch64"
+  ],
+  "category": "Effect",
+  "so": "jamclock.so",
+  "params": "params.json",
+  "layout": "layout.conf",
+  "art": "html",
+  "effect": true,
+  "about": "Listen-only insert effect with bit-identical passthrough. Put it on an input track (e.g. Input 3/4) carrying live audio: it beat-tracks the signal with BTT (spectral-flux onset detection, autocorrelation, pulse-pattern cross-correlation, log-Gaussian tempo prior, Half/Double bias) and sends MIDI Clock (24 ppq, drift-free split clock: period from BTT, phase corrected proportionally) plus Start/Continue/Stop and SPP on its own ALSA sequencer port 'JamClock MIDI Out'. Connect that port to the MPC app's MIDI input with aconnect and the MPC follows the band in time. Silence longer than N s sends Stop. The first beat after lock sends Start, then Continue at the same tempo. BPM, status and port are live readouts.",
+  "defines": {
+    "PARAM_TEXT_MAX": 64
+  },
+  "build": {
+    "root": "..",
+    "sources": [
+      "src/jamclock_engine.c",
+      "src/btt_wrap.c",
+      "src/btt/src/BTT.c",
+      "src/btt/src/DFT.c",
+      "src/btt/src/Filter.c",
+      "src/btt/src/Statistics.c",
+      "src/btt/src/STFT.c",
+      "src/btt/src/fastsin.c"
+    ],
+    "cflags": [
+      "-Isrc"
+    ],
+    "libs": [
+      "-lm",
+      "-ldl"
+    ]
+  }
+}

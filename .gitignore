@@ -1,0 +1,10 @@
+vst/build/
+vst/dbg/
+__pycache__/
+*.o
+test/build/
+dist/
+*.log
+test/datasets/
+test/eval/build/
+test/eval/results/

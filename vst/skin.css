@@ -1,0 +1,51 @@
+/* JamClock skin CSS ("art": "html" in vst.json) - loaded after tools/html_art/default.css.
+   Titillium Web ships with the renderer image (tools/html_art/fonts/) and is the MPC's own
+   live-text font: baked and live text look identical, everything antialiased (no bitmap font
+   like shadow_art). The sizes here control frame title, labels, segment and button text;
+   free text lines scale via their size= (real font, sharp at any size).
+   Look: calm warm chrome; the piano photo is the one moment of imagery,
+   the green accent belongs to the clock LCD and the active segments. */
+:root {
+  --font: "Titillium Web", "DejaVu Sans", sans-serif;
+  --title-font: var(--font);
+  --title-size: 22px;    /* frame title "JamClock" */
+  --label-size: 16px;    /* enum group labels, readout captions */
+  --seg-size: 20px;      /* segment texts (OFF/ON, AUTO/HALF/DOUBLE) */
+  --button-size: 20px;   /* button label (Reset) */
+  --radius: 10px;        /* one control radius for segments and the button */
+  --sheen: 0.035;        /* subtle surface brightening, no glass highlight */
+  --shadow: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+  --btn-text-plain: var(--ink);  /* non-td3 button text from the theme instead of the default cream */
+}
+
+/* Background: piano photo (vst/assets/piano.jpg, "Piano" by baconisavegetable, CC BY-SA 2.0,
+   see README) under a neutral darkening gradient so the text stays readable.
+   IMPORTANT: photo + transparent clear rectangle may ONLY apply to the background page
+   (:has on the clear rectangle + .frame-border - only the bg page has both). Widget crops
+   have no frame: the knob strip has no clear rectangle at all and must stay transparent
+   (otherwise a black rectangle around the knobs), the boxbtn crop (Reset) keeps its
+   PLATE clear rectangle as a solid plate behind the button (non-lone crop = RGB; without
+   a transparent clear there would be white corners). */
+body:has(#g > rect:first-child:not([class])):has(.frame-border) {
+  background:
+    linear-gradient(180deg, rgba(12, 10, 8, 0.70) 0%, rgba(12, 10, 8, 0.88) 100%),
+    url("assets/piano.jpg") 50% 18% / cover no-repeat,
+    #0c0a08;
+}
+#g:has(.frame-border) > rect:first-child:not([class]) { fill: none; }
+
+/* calm chrome: title in the primary color instead of the accent, tighter tracking */
+.frame-title { letter-spacing: 0.05em; font-weight: 600; fill: var(--ink); }
+.frame-border { stroke-width: 1; }
+.frame-rule { opacity: 0.6; }
+.text { letter-spacing: 0.03em; }
+.box-label { letter-spacing: 0.04em; }
+
+/* soft edges instead of square wells (nested radius: box inside smaller than the controls) */
+.box { rx: 8px; }
+.seg-bg, .seg-sheen { rx: var(--radius); }
+.button-bg { rx: var(--radius); stroke: var(--line); stroke-width: 1; }
+
+/* knobs: track subtle, value arc + pointer in the accent color */
+.knob-track { stroke: var(--ink-faint); }
+.knob-face { stroke: var(--line); stroke-width: 1; }

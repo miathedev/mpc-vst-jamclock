@@ -1,0 +1,91 @@
+{
+ "name": "JamClock",
+ "params": [
+  {
+   "key": "enable",
+   "name": "Clock Out",
+   "options": [
+    "Off",
+    "On"
+   ],
+   "default": 1
+  },
+  {
+   "key": "bias",
+   "name": "Bias",
+   "options": [
+    "Auto",
+    "Half",
+    "Double"
+   ],
+   "default": 0
+  },
+  {
+   "key": "minbpm",
+   "name": "Min BPM",
+   "min": 40,
+   "max": 120,
+   "default": 40,
+   "display": "int"
+  },
+  {
+   "key": "maxbpm",
+   "name": "Max BPM",
+   "min": 60,
+   "max": 240,
+   "default": 200,
+   "display": "int"
+  },
+  {
+   "key": "silence",
+   "name": "Silence",
+   "min": 1,
+   "max": 10,
+   "default": 3,
+   "display": "int",
+   "unit": "s"
+  },
+  {
+   "key": "reset",
+   "name": "Reset",
+   "momentary": true
+  },
+  {
+   "key": "bpm",
+   "name": "BPM",
+   "type": "readout",
+   "display": "string",
+   "poll": true
+  },
+  {
+   "key": "status",
+   "name": "Status",
+   "type": "readout",
+   "display": "string",
+   "poll": true
+  },
+  {
+   "key": "port",
+   "name": "MIDI Out",
+   "type": "readout",
+   "display": "string",
+   "poll": true
+  }
+ ],
+ "sections": [
+  {
+   "label": "Clock",
+   "keys": [
+    "enable",
+    "bias",
+    "minbpm",
+    "maxbpm",
+    "silence",
+    "reset",
+    "bpm",
+    "status",
+    "port"
+   ]
+  }
+ ]
+}
