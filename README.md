@@ -56,6 +56,20 @@ entry (or re-flash the official OS image).
   0.72 overall, 0.96 at 130-150 BPM, 0.60 above 150 BPM (details and full table in
   `test/eval/README.md`).
 
+### Control-loop
+
+```mermaid
+flowchart LR
+    A["Live audio in: the band's tempo is the disturbance to follow"] --> B["Sensor: onset detection, STFT hop 128, spectral flux, adaptive threshold"]
+    B --> E["Estimator (BTT): autocorrelation + CBSS pulse pattern, tempo histogram with log-Gaussian prior, outputs beat period + beat phase"]
+    E -->|"beat callbacks: phase error"| C["Controller: split clock, period from estimator, phase corrected proportionally (alpha 0.20), span clamped to 0.5-1.5x period, hard resync after 3 phase errors over 30 percent"]
+    C --> D["Actuator: ALSA seq port 'JamClock MIDI Out', CLOCK 24 ppq + START/CONTINUE/STOP/SPP on absolute CLOCK_MONOTONIC deadlines"]
+    D --> P["Plant: MPC sequencer, arps and clock-driven effects in external sync"]
+    E -.->|"silence longer than silence s: STOP, resume sends CONTINUE at the kept tempo"| D
+```
+
+The RT audio callback only feeds the estimator through the SPSC ring, the worker thread runs sensor, estimator, controller and actuator off the audio cores.
+
 ## Parameters (index order = VST index)
 
 | # | key | options/range | default |
