@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# deploy.sh - deploy a JamClock release zip to YOUR OWN MPC (only on the user's explicit
-# request in the current session: only run on your own device, as root, on explicit request).
+# deploy.sh - deploy a JamClock release zip
 #
 #   ./deploy.sh <mpc-ip> [zip]          deploy (zip default: newest dist/JamClock-*-mpc-*.zip)
 #   ./deploy.sh build <mpc-ip> [ver]    first build+pack fresh from the CURRENT sources
