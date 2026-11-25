@@ -42,7 +42,7 @@ jobs:
       version: ${{ inputs.version }}
       tools_ref: 93804291aac2623a62cb2baacf8125c7270fe4e7
       vst_dir: vst
-      build: ./build.sh
+      build: ./build.sh all
       host_test: '"$MPC_VST/tools/test_port.sh" vst/vst.json'
       plugin_id: jamclock
       license: GPL-3.0-or-later
