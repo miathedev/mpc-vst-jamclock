@@ -1,0 +1,10 @@
+plugin /tmp/jamclock.so: effect, 9 params, open 0.3 ms; block 128 @ 44100 Hz = 2902 us budget
+  1 one-shot trigger(s) excluded from the sweep, fired in their own stage
+stage               mean%     p99%     max%  threads%    peak
+idle                  0.4      1.0      2.2       0.1    0.25
+audio in              0.4      1.0      2.8       0.1    0.25
+q-link sweep          0.8      1.6      2.4       0.1    0.25
+release tail          0.3      0.8      1.1       0.0    0.25
+trigger fire          0.4      0.8      1.1       0.1    0.25
+worst p99 1.6%, worst block 2.8%, background threads up to 0.1% of a core, trigger max 1.1% of a block -> PASS
+{"plugin":"/tmp/jamclock.so","instrument":0,"open_ms":0.3,"p99_pct":1.6,"max_pct":2.8,"threads_pct":0.1,"verdict":"PASS","triggers":1,"trigger_max_pct":1.1}

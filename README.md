@@ -11,7 +11,7 @@ bit-identical. No extra hardware is needed.
 aconnect "JamClock MIDI Out" "<MPC app>:<MIDI in>"
 ```
 
-![JamClock on an MPC X SE, live and LOCKED at 123.3 BPM](screenshot.png)
+![JamClock on an MPC X SE, live and LOCKED at 110.1 BPM](screenshot.png)
 
 ## Requirements
 
@@ -28,7 +28,7 @@ aconnect "JamClock MIDI Out" "<MPC app>:<MIDI in>"
 2. Copy it to the MPC and run the bundled installer as root over SSH:
    ```
    scp JamClock-<version>-mpc-armv7.zip root@<mpc-ip>:/tmp/jamclock.zip
-   ssh root@<mpc-ip> 'cd /tmp && unzip -o jamclock.zip -d jamclock && cd jamclock && sh install.sh -y'
+   ssh root@<mpc-ip> 'cd /tmp && unzip -o jamclock.zip -d jamclock && cd jamclock/JamClock-2.0.0 && sh install.sh -y'
    ```
    (On MPC OS 3.10.1+ instead: unzip and copy the plugin folder into `VST2 Plugins`.)
 3. On the MPC: track 3/4 = audio input, insert JamClock on it, track monitored (thru) so
